@@ -152,6 +152,87 @@
   .galeria .polaroid:nth-child(even) { transform: rotate(2.5deg); }
 
   #confeti { position: fixed; inset: 0; pointer-events: none; z-index: 30; }
+
+  /* ---------- Detalles extra ---------- */
+  /* Corazoncitos donde toca */
+  .toque { position: fixed; z-index: 40; pointer-events: none; font-size: 22px;
+    transform: translate(-50%, -50%); animation: toque 1s ease-out forwards; }
+  @keyframes toque { to { transform: translate(-50%, -160%) scale(1.5); opacity: 0; } }
+
+  /* Título con brillito */
+  h1.brillo {
+    background: linear-gradient(100deg, var(--rosa-fuerte) 35%, #ffd1e0 50%, var(--rosa-fuerte) 65%);
+    background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: brillo 3.5s linear infinite;
+  }
+  @keyframes brillo { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+
+  /* Contador en vivo */
+  .contador { display: flex; gap: 8px; justify-content: center; margin: 4px 0 6px; }
+  .contador div {
+    background: white; border-radius: 14px; padding: 8px 4px; min-width: 66px; box-shadow: var(--sombra);
+  }
+  .contador b { display: block; font-size: 26px; color: var(--rosa-fuerte); font-variant-numeric: tabular-nums; }
+  .contador small { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .contador-texto { font-family: "Caveat", cursive; font-size: 24px; margin: 4px 0 24px; }
+
+  /* Sobre que se abre */
+  .sobre.abrir { animation: abrirSobre .8s ease forwards; }
+  @keyframes abrirSobre {
+    0% { transform: scale(1); } 30% { transform: scale(1.25) rotate(-8deg); }
+    60% { transform: scale(1.1) rotate(8deg); } 100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  /* Cinta washi en polaroids */
+  .polaroid { position: relative; }
+  .polaroid::before {
+    content: ""; position: absolute; top: -10px; left: 50%; width: 84px; height: 22px;
+    transform: translateX(-50%) rotate(-4deg);
+    background: repeating-linear-gradient(45deg, rgba(248,200,216,.85) 0 6px, rgba(255,255,255,.7) 6px 12px);
+    box-shadow: 0 1px 3px rgba(0,0,0,.08); z-index: 2;
+  }
+  .pie { font-family: "Caveat", cursive; font-size: 20px; color: #6d4b5a; margin-top: 6px; line-height: 1.1; }
+  .num-papelito { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .6; margin: 2px 0 10px; }
+  .cursor::after { content: "|"; animation: parpadeo .8s steps(1) infinite; margin-left: 2px; }
+  @keyframes parpadeo { 50% { opacity: 0; } }
+
+  /* Etiqueta y brillo del frasco */
+  .etiqueta {
+    position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%) rotate(-3deg); z-index: 2;
+    background: #fffafc; border: 2px dashed var(--rosa-fuerte); border-radius: 10px; padding: 4px 14px;
+    font-family: "Caveat", cursive; font-size: 26px; color: var(--rosa-fuerte); white-space: nowrap;
+  }
+  .frasco-wrap::after {
+    content: "✨"; position: absolute; right: -6px; top: 40px; font-size: 26px; animation: titilar 1.6s ease-in-out infinite;
+  }
+  @keyframes titilar { 0%,100% { opacity: .2; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.1); } }
+  .flecha { display: inline-block; animation: rebote 1s ease-in-out infinite; }
+  @keyframes rebote { 50% { transform: translateY(6px); } }
+  .corazones-progreso { font-size: 24px; letter-spacing: 4px; margin-top: 6px; }
+  .corazones-progreso span { display: inline-block; transition: transform .3s ease; }
+  .corazones-progreso span.lleno { animation: pum .4s cubic-bezier(.2,1.6,.4,1); }
+
+  /* Sello en la carta */
+  .carta { position: relative; padding-top: 34px; }
+  .sello {
+    position: absolute; top: -26px; left: 50%; transform: translateX(-50%);
+    width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-size: 26px;
+    background: radial-gradient(circle at 35% 35%, #f59ab9, #d9628c); box-shadow: 0 4px 10px rgba(180,60,100,.35);
+  }
+  .pd { font-size: 15px; opacity: .8; margin: -8px 0 22px; }
+
+  /* Galería: pie de foto y foto en grande */
+  .galeria .polaroid { cursor: pointer; }
+  .galeria .pie { font-size: 17px; }
+  .galeria .polaroid::before { width: 56px; height: 16px; top: -7px; }
+  .visor {
+    position: fixed; inset: 0; z-index: 25; background: rgba(60, 20, 40, .75);
+    display: none; align-items: center; justify-content: center; padding: 16px;
+  }
+  .visor.abierto { display: flex; }
+  .visor .polaroid { max-width: 380px; width: 100%; animation: desdoblar .4s cubic-bezier(.2,1.4,.4,1) both; transform: rotate(-1deg); }
+  .visor .polaroid img { height: auto; max-height: 70dvh; object-fit: contain; }
+  .visor .pie { font-size: 26px; text-align: center; }
 </style>
 </head>
 <body>
@@ -161,21 +242,29 @@
 <!-- 1. Intro -->
 <section class="pantalla activa" id="intro">
   <p class="pequeno">27 de noviembre 💗</p>
-  <h1>Feliz 2 meses,<br>mi amorcito</h1>
-  <div class="sobre">💌</div>
-  <div class="contador-dias">2 meses contigo y se sienten como un ratito</div>
+  <h1 class="brillo">Feliz 2 meses,<br>mi amorcito</h1>
+  <div class="sobre" id="sobre">💌</div>
+  <div class="contador">
+    <div><b id="cDias">0</b><small>días</small></div>
+    <div><b id="cHoras">0</b><small>horas</small></div>
+    <div><b id="cMin">0</b><small>min</small></div>
+    <div><b id="cSeg">0</b><small>seg</small></div>
+  </div>
+  <p class="contador-texto">contigo… y se sienten como un ratito 🥹</p>
   <button class="boton" id="btnAbrir">Abrir mi regalito</button>
 </section>
 
 <!-- 2. Frasco -->
 <section class="pantalla" id="frasco">
   <h2>El frasco de razones<br>por las que te quiero</h2>
-  <p class="pista">Tócalo para sacar un papelito 👇</p>
+  <p class="pista">Tócalo para sacar un papelito <span class="flecha">👇</span></p>
   <div class="frasco-wrap" id="frascoWrap" role="button" aria-label="Sacar un papelito">
     <div class="tapa"></div>
     <div class="lazo">🎀</div>
     <div class="vidrio" id="vidrio"></div>
+    <div class="etiqueta">para ti 💗</div>
   </div>
+  <div class="corazones-progreso" id="corProgreso"></div>
   <p class="progreso" id="progreso"></p>
   <button class="boton" id="btnUltima">Hay una última cosa… 👉</button>
 </section>
@@ -196,19 +285,28 @@
 <section class="pantalla" id="final">
   <h1>¡SABÍA QUE IBAS A DECIR QUE SÍ! 🎉</h1>
   <div class="carta">
+    <div class="sello">💗</div>
     <p>Mi vida:</p>
     <p>Gracias, de verdad, demasiado, por estos dos meses. Se me han pasado rapidísimo, y es porque contigo todo es más bonito.</p>
     <p>Me haces reír, me haces sentir cómodo, me tratas increíble y cada abrazo tuyo me alegra el día.</p>
     <p>Siempre voy a querer vivir toda mi vida contigo. 💗</p>
     <p class="firma">Te quiero muchísimo, mi reina</p>
   </div>
+  <h2>Nuestras fotitos</h2>
+  <p class="pequeno" style="margin-bottom:16px">Toca una para verla en grande 🔍</p>
   <div class="galeria" id="galeria"></div>
+  <p class="pd">P.D. Este link no caduca: vuelve cuando quieras 💌</p>
   <button class="boton suave" id="btnOtra">Volver a empezar 🔁</button>
 </section>
 
 <!-- Papelito -->
 <div class="modal" id="modal">
   <div class="papelito" id="papelito"></div>
+</div>
+
+<!-- Foto en grande -->
+<div class="visor" id="visor">
+  <div class="polaroid"><img id="visorImg" src="" alt=""><p class="pie" id="visorPie"></p></div>
 </div>
 
 <script>
@@ -261,6 +359,8 @@
     $("progreso").textContent = abiertos < RAZONES.length
       ? `${abiertos} de ${RAZONES.length} papelitos`
       : "¡Los abriste todos! 💗";
+    $("corProgreso").innerHTML = RAZONES.map((_, i) =>
+      `<span class="${i < abiertos ? "lleno" : ""}">${i < abiertos ? "💗" : "🤍"}</span>`).join("");
   };
   actualizarProgreso();
 
@@ -276,8 +376,9 @@
 
   function abrirPapelito(r) {
     const cont = $("papelito");
+    const num = `<p class="num-papelito">papelito ${abiertos} de ${RAZONES.length}</p>`;
     if (r.chiste) {
-      cont.innerHTML = `
+      cont.innerHTML = num + `
         <div class="polaroid"><img src="fotos/8.jpg" alt=""></div>
         <p class="razon">Porque tenemos los mejores chistes…</p>
         <div class="chiste-linea">LA FOTOOOOO ✌🏻</div>
@@ -285,18 +386,32 @@
         <div class="chiste-linea">LA CHACANERÍAAAAAAAAAA 🕺</div>
         <p style="margin-top:16px"><button class="boton" id="cerrar">Jajaja 🤭</button></p>`;
       cont.querySelectorAll(".chiste-linea").forEach((el, i) =>
-        setTimeout(() => el.classList.add("ver"), 600 + i * 900));
+        setTimeout(() => { el.classList.add("ver"); sonido(660 + i * 110); }, 600 + i * 900));
     } else {
-      cont.innerHTML = `
+      cont.innerHTML = num + `
         <div class="polaroid"><img src="${r.foto}" alt=""></div>
-        <p class="razon">${r.texto}</p>
+        <p class="razon cursor" id="razonTexto"></p>
         <button class="boton" id="cerrar">${abiertos < RAZONES.length ? "Otro papelito 💌" : "Ya los saqué todos 💗"}</button>`;
     }
     // reiniciar animación
     cont.style.animation = "none"; void cont.offsetWidth; cont.style.animation = "";
     $("modal").classList.add("abierto");
     $("cerrar").onclick = cerrarPapelito;
+    if (!r.chiste) escribir($("razonTexto"), r.texto);
     mini();
+    sonido(880);
+  }
+
+  // Efecto de máquina de escribir
+  let escribiendo;
+  function escribir(el, texto) {
+    clearInterval(escribiendo);
+    const letras = Array.from(texto);
+    let i = 0;
+    escribiendo = setInterval(() => {
+      el.textContent = letras.slice(0, ++i).join("");
+      if (i >= letras.length) { clearInterval(escribiendo); setTimeout(() => el.classList.remove("cursor"), 900); }
+    }, 45);
   }
   function cerrarPapelito() {
     $("modal").classList.remove("abierto");
@@ -342,18 +457,73 @@
     btnNo.classList.remove("escapando");
     mostrar("final");
     lluviaConfeti();
+    [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => sonido(f), i * 160));
   }
 
   // Galería final
+  const PIES = [
+    "mordiéndome el pelo 😂", "mi cara de dolor jaja", "esa sonrisa 🫶", "tú y el gatito 🐱",
+    "abrazos de espalda 🫂", "los dos de azul 💙", "los perritos 🐶", "LA FOTOOOO ✌🏻",
+    "mi reina 👑", "hermosa 😍",
+  ];
   const galeria = $("galeria");
-  for (let i = 1; i <= 10; i++) {
+  PIES.forEach((pie, idx) => {
     const d = document.createElement("div");
     d.className = "polaroid";
-    d.innerHTML = `<img src="fotos/${i}.jpg" alt="" loading="lazy">`;
+    d.innerHTML = `<img src="fotos/${idx + 1}.jpg" alt="" loading="lazy"><p class="pie">${pie}</p>`;
+    d.onclick = () => {
+      $("visorImg").src = `fotos/${idx + 1}.jpg`;
+      $("visorPie").textContent = pie;
+      $("visor").classList.add("abierto");
+    };
     galeria.appendChild(d);
+  });
+  $("visor").onclick = () => $("visor").classList.remove("abierto");
+
+  // Contador en vivo desde el 27 de septiembre
+  const INICIO = new Date(2026, 8, 27, 0, 0, 0);
+  function contar() {
+    let s = Math.max(0, Math.floor((Date.now() - INICIO) / 1000));
+    $("cDias").textContent = Math.floor(s / 86400); s %= 86400;
+    $("cHoras").textContent = Math.floor(s / 3600); s %= 3600;
+    $("cMin").textContent = Math.floor(s / 60);
+    $("cSeg").textContent = s % 60;
+  }
+  contar(); setInterval(contar, 1000);
+
+  // Corazoncito donde toque
+  document.addEventListener("pointerdown", (e) => {
+    const h = document.createElement("span");
+    h.className = "toque";
+    h.textContent = ["💗", "💕", "🩷", "✨"][Math.floor(Math.random() * 4)];
+    h.style.left = e.clientX + "px"; h.style.top = e.clientY + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 1000);
+  });
+
+  // Sonidito suave (no suena si el celular está en silencio)
+  let audio;
+  function sonido(freq = 880) {
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      const t = audio.currentTime;
+      [freq, freq * 1.5].forEach((f, i) => {
+        const o = audio.createOscillator(), g = audio.createGain();
+        o.type = "sine"; o.frequency.value = f;
+        g.gain.setValueAtTime(0, t + i * 0.08);
+        g.gain.linearRampToValueAtTime(0.06, t + i * 0.08 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + i * 0.08 + 0.5);
+        o.connect(g).connect(audio.destination);
+        o.start(t + i * 0.08); o.stop(t + i * 0.08 + 0.55);
+      });
+    } catch (_) {}
   }
 
-  $("btnAbrir").onclick = () => mostrar("frasco");
+  $("btnAbrir").onclick = () => {
+    $("sobre").classList.add("abrir");
+    sonido(784);
+    setTimeout(() => mostrar("frasco"), 750);
+  };
   $("btnUltima").onclick = () => mostrar("pregunta");
   $("btnOtra").onclick = () => location.reload();
 
