@@ -256,7 +256,7 @@
 
 <!-- 2. Frasco -->
 <section class="pantalla" id="frasco">
-  <h2>El frasco de razones<br>por las que te quiero</h2>
+  <h2>El frasco de razones<br>por las que te amo</h2>
   <p class="pista">Tócalo para sacar un papelito <span class="flecha">👇</span></p>
   <div class="frasco-wrap" id="frascoWrap" role="button" aria-label="Sacar un papelito">
     <div class="tapa"></div>
@@ -272,7 +272,7 @@
 <!-- 3. Pregunta -->
 <section class="pantalla" id="pregunta">
   <img class="foto-pregunta" src="fotos/6.jpg" alt="Nosotros">
-  <h2>Mi reina…</h2>
+  <h2 id="tituloPregunta">Mi reina…</h2>
   <p>¿Quieres seguir siendo mi novia este mes,<br>y todos los que vienen? 🥺</p>
   <div class="botones">
     <button class="boton" id="btnSi">Sí 💗</button>
@@ -290,7 +290,7 @@
     <p>Gracias, de verdad, demasiado, por estos dos meses. Se me han pasado rapidísimo, y es porque contigo todo es más bonito.</p>
     <p>Me haces reír, me haces sentir cómodo, me tratas increíble y cada abrazo tuyo me alegra el día.</p>
     <p>Siempre voy a querer vivir toda mi vida contigo. 💗</p>
-    <p class="firma">Te quiero muchísimo, mi reina</p>
+    <p class="firma">Te amo muchísimo, mi reina</p>
   </div>
   <h2>Nuestras fotitos</h2>
   <p class="pequeno" style="margin-bottom:16px">Toca una para verla en grande 🔍</p>
@@ -431,6 +431,7 @@
     if (intentosNo >= frasesNo.length) return; // ya se rindió
     if (e) e.preventDefault();
     intentosNo++;
+    $("tituloPregunta").textContent = "Deja el chiste porque si pasa lloro de verdad 😭";
     $("msgNo").textContent = frasesNo[intentosNo - 1];
     btnSi.style.transform = `scale(${1 + intentosNo * 0.15})`;
     if (intentosNo >= frasesNo.length) {
