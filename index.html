@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feliz 2 meses, mi amorcito 💗</title>
+<meta name="description" content="Un regalito para ti 💌">
+<meta property="og:title" content="Un regalito para ti 💌">
+<meta property="og:description" content="Ábrelo, mi reina">
+<meta name="theme-color" content="#f8c8d8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rosa: #f8c8d8;
+    --rosa-claro: #fde8ef;
+    --rosa-fuerte: #e8789f;
+    --rosa-texto: #8a3b5a;
+    --crema: #fffafc;
+    --sombra: 0 10px 30px rgba(196, 90, 130, .25);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: "Quicksand", system-ui, sans-serif;
+    color: var(--rosa-texto);
+    background: linear-gradient(170deg, var(--rosa-claro) 0%, var(--rosa) 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+    min-height: 100dvh;
+  }
+  .corazones-fondo { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+  .corazones-fondo span {
+    position: absolute; bottom: -40px; font-size: 20px; opacity: .55;
+    animation: subir linear infinite;
+  }
+  @keyframes subir {
+    to { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
+  }
+
+  .pantalla {
+    position: relative; z-index: 1;
+    min-height: 100dvh; padding: 32px 16px 40px;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; max-width: 520px; margin: 0 auto;
+  }
+  .pantalla.activa { display: flex; animation: aparecer .6s ease both; }
+  @keyframes aparecer { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  h1, h2 { font-family: "Caveat", cursive; font-weight: 700; margin: 0 0 8px; line-height: 1.05; }
+  h1 { font-size: clamp(44px, 13vw, 64px); color: var(--rosa-fuerte); }
+  h2 { font-size: clamp(34px, 10vw, 46px); color: var(--rosa-fuerte); }
+  p { font-size: 18px; line-height: 1.5; margin: 6px 0; }
+  .pequeno { font-size: 15px; opacity: .8; }
+
+  .boton {
+    font: 700 19px "Quicksand", sans-serif;
+    border: 0; border-radius: 999px; padding: 14px 30px; cursor: pointer;
+    background: var(--rosa-fuerte); color: white; box-shadow: var(--sombra);
+    transition: transform .15s ease;
+  }
+  .boton:active { transform: scale(.94); }
+  .boton.suave { background: white; color: var(--rosa-fuerte); }
+
+  /* Intro */
+  .sobre { font-size: 96px; animation: latir 1.4s ease-in-out infinite; margin: 18px 0 22px; }
+  @keyframes latir { 0%,100% { transform: scale(1); } 15% { transform: scale(1.12); } 30% { transform: scale(1); } 45% { transform: scale(1.08); } }
+  .contador-dias {
+    background: white; border-radius: 18px; padding: 10px 18px; margin: 4px 0 26px;
+    box-shadow: var(--sombra); font-weight: 600;
+  }
+
+  /* Frasco */
+  .frasco-wrap { position: relative; width: 230px; height: 290px; margin: 18px auto 10px; cursor: pointer; }
+  .frasco-wrap.sacudir { animation: sacudir .45s ease; }
+  @keyframes sacudir {
+    0%,100% { transform: rotate(0); } 20% { transform: rotate(-7deg); } 40% { transform: rotate(6deg); }
+    60% { transform: rotate(-4deg); } 80% { transform: rotate(3deg); }
+  }
+  .tapa {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 150px; height: 34px; border-radius: 10px;
+    background: repeating-linear-gradient(90deg, #f4a6c0 0 10px, #ef97b5 10px 20px);
+    box-shadow: inset 0 -4px 0 rgba(0,0,0,.08);
+  }
+  .lazo { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-size: 34px; z-index: 3; }
+  .vidrio {
+    position: absolute; top: 30px; left: 0; right: 0; bottom: 0;
+    border-radius: 40px 40px 46px 46px;
+    background: rgba(255,255,255,.45);
+    border: 4px solid rgba(255,255,255,.9);
+    box-shadow: var(--sombra), inset 14px 0 0 rgba(255,255,255,.35);
+    overflow: hidden;
+  }
+  .papel {
+    position: absolute; width: 46px; height: 30px; border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.12);
+    transition: transform .4s ease, opacity .4s ease;
+  }
+  .papel.fuera { transform: translateY(-260px) scale(.4) !important; opacity: 0; }
+  .progreso { font-weight: 700; margin-top: 8px; }
+  .pista { margin-top: 4px; }
+  #btnUltima { margin-top: 18px; display: none; }
+
+  /* Papelito modal */
+  .modal {
+    position: fixed; inset: 0; z-index: 20;
+    background: rgba(138, 59, 90, .35); backdrop-filter: blur(3px);
+    display: none; align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal.abierto { display: flex; }
+  .papelito {
+    background: var(--crema); border-radius: 20px; padding: 16px 16px 20px;
+    width: 100%; max-width: 360px; box-shadow: var(--sombra);
+    animation: desdoblar .5s cubic-bezier(.2,1.4,.4,1) both;
+    max-height: 92dvh; overflow-y: auto;
+  }
+  @keyframes desdoblar { from { transform: scale(.3) rotate(-12deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  .polaroid {
+    background: white; padding: 10px 10px 14px; border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.15); transform: rotate(-2deg); margin: 0 auto 14px;
+  }
+  .polaroid img { width: 100%; height: 300px; object-fit: cover; border-radius: 3px; display: block; }
+  .papelito .razon { font-family: "Caveat", cursive; font-size: 34px; line-height: 1.1; color: var(--rosa-texto); margin: 4px 0 14px; }
+  .chiste-linea {
+    font-family: "Quicksand", sans-serif; font-weight: 700; font-size: clamp(17px, 5.4vw, 22px); overflow-wrap: anywhere;
+    color: var(--rosa-fuerte); margin: 8px 0; opacity: 0; transform: scale(.5);
+  }
+  .chiste-linea.ver { animation: pum .5s cubic-bezier(.2,1.6,.4,1) forwards; }
+  @keyframes pum { to { opacity: 1; transform: scale(1); } }
+
+  /* Pregunta */
+  .foto-pregunta { width: 190px; height: 240px; object-fit: cover; border-radius: 8px; border: 8px solid white; box-shadow: var(--sombra); transform: rotate(3deg); margin-bottom: 20px; }
+  .botones { display: flex; gap: 16px; justify-content: center; align-items: center; margin-top: 22px; min-height: 70px; flex-wrap: wrap; }
+  #btnSi { transition: transform .25s ease; }
+  #btnNo { transition: left .25s ease, top .25s ease; }
+  #btnNo.escapando { position: fixed; z-index: 10; }
+  #msgNo { min-height: 26px; margin-top: 14px; font-weight: 600; }
+
+  /* Final */
+  .carta {
+    background: var(--crema); border-radius: 20px; padding: 22px 20px; box-shadow: var(--sombra);
+    text-align: left; margin: 10px 0 24px;
+  }
+  .carta p { font-size: 18px; }
+  .carta .firma { font-family: "Caveat", cursive; font-size: 30px; text-align: right; color: var(--rosa-fuerte); margin-top: 10px; }
+  .galeria { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; width: 100%; margin-bottom: 26px; }
+  .galeria .polaroid { margin: 0; padding: 7px 7px 10px; }
+  .galeria .polaroid img { height: 170px; }
+  .galeria .polaroid:nth-child(odd) { transform: rotate(-3deg); }
+  .galeria .polaroid:nth-child(even) { transform: rotate(2.5deg); }
+
+  #confeti { position: fixed; inset: 0; pointer-events: none; z-index: 30; }
+</style>
+</head>
+<body>
+<div class="corazones-fondo" id="fondo"></div>
+<canvas id="confeti"></canvas>
+
+<!-- 1. Intro -->
+<section class="pantalla activa" id="intro">
+  <p class="pequeno">27 de noviembre 💗</p>
+  <h1>Feliz 2 meses,<br>mi amorcito</h1>
+  <div class="sobre">💌</div>
+  <div class="contador-dias">2 meses contigo y se sienten como un ratito</div>
+  <button class="boton" id="btnAbrir">Abrir mi regalito</button>
+</section>
+
+<!-- 2. Frasco -->
+<section class="pantalla" id="frasco">
+  <h2>El frasco de razones<br>por las que te quiero</h2>
+  <p class="pista">Tócalo para sacar un papelito 👇</p>
+  <div class="frasco-wrap" id="frascoWrap" role="button" aria-label="Sacar un papelito">
+    <div class="tapa"></div>
+    <div class="lazo">🎀</div>
+    <div class="vidrio" id="vidrio"></div>
+  </div>
+  <p class="progreso" id="progreso"></p>
+  <button class="boton" id="btnUltima">Hay una última cosa… 👉</button>
+</section>
+
+<!-- 3. Pregunta -->
+<section class="pantalla" id="pregunta">
+  <img class="foto-pregunta" src="fotos/6.jpg" alt="Nosotros">
+  <h2>Mi reina…</h2>
+  <p>¿Quieres seguir siendo mi novia este mes,<br>y todos los que vienen? 🥺</p>
+  <div class="botones">
+    <button class="boton" id="btnSi">Sí 💗</button>
+    <button class="boton suave" id="btnNo">No</button>
+  </div>
+  <p id="msgNo"></p>
+</section>
+
+<!-- 4. Final -->
+<section class="pantalla" id="final">
+  <h1>¡SABÍA QUE IBAS A DECIR QUE SÍ! 🎉</h1>
+  <div class="carta">
+    <p>Mi vida:</p>
+    <p>Gracias, de verdad, demasiado, por estos dos meses. Se me han pasado rapidísimo, y es porque contigo todo es más bonito.</p>
+    <p>Me haces reír, me haces sentir cómodo, me tratas increíble y cada abrazo tuyo me alegra el día.</p>
+    <p>Siempre voy a querer vivir toda mi vida contigo. 💗</p>
+    <p class="firma">Te quiero muchísimo, mi reina</p>
+  </div>
+  <div class="galeria" id="galeria"></div>
+  <button class="boton suave" id="btnOtra">Volver a empezar 🔁</button>
+</section>
+
+<!-- Papelito -->
+<div class="modal" id="modal">
+  <div class="papelito" id="papelito"></div>
+</div>
+
+<script>
+  const RAZONES = [
+    { foto: "fotos/2.jpg", texto: "Porque me haces reír todo el tiempo 😂" },
+    { foto: "fotos/9.jpg", texto: "Porque eres hermosa. Demasiado. 😍" },
+    { foto: "fotos/5.jpg", texto: "Porque me encanta que me abraces a cada rato 🫂" },
+    { foto: "fotos/1.jpg", texto: "Porque me encanta cómo me tratas 💗" },
+    { chiste: true },
+    { foto: "fotos/3.jpg", texto: "Porque me siento súper cómodo hablando contigo 🥰" },
+    { foto: "fotos/10.jpg", texto: "Porque siento que eres la mejor mujer con la que he estado 👑" },
+    { foto: "fotos/4.jpg", texto: "Y porque eres tú, mi amorcito. Con eso basta. 💞" },
+  ];
+  const COLORES_PAPEL = ["#ffd1e0", "#ffe3ec", "#f9b8cf", "#fff0c9", "#e7d7ff", "#d6f0ff", "#ffdfe9", "#ffc6d9"];
+
+  const $ = (id) => document.getElementById(id);
+  function mostrar(id) {
+    document.querySelectorAll(".pantalla").forEach((s) => s.classList.remove("activa"));
+    $(id).classList.add("activa");
+    window.scrollTo(0, 0);
+  }
+
+  // Corazones de fondo
+  const fondo = $("fondo");
+  const emojis = ["💗", "💕", "🩷", "💞", "✨"];
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement("span");
+    s.textContent = emojis[i % emojis.length];
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.fontSize = 14 + Math.random() * 18 + "px";
+    s.style.animationDuration = 9 + Math.random() * 10 + "s";
+    s.style.animationDelay = -Math.random() * 18 + "s";
+    fondo.appendChild(s);
+  }
+
+  // Frasco
+  const vidrio = $("vidrio");
+  const papeles = RAZONES.map((_, i) => {
+    const p = document.createElement("div");
+    p.className = "papel";
+    p.style.background = COLORES_PAPEL[i % COLORES_PAPEL.length];
+    p.style.left = 14 + (i % 3) * 58 + Math.random() * 14 + "px";
+    p.style.bottom = 14 + Math.floor(i / 3) * 34 + Math.random() * 8 + "px";
+    p.style.transform = `rotate(${Math.random() * 50 - 25}deg)`;
+    vidrio.appendChild(p);
+    return p;
+  });
+  let abiertos = 0;
+  const actualizarProgreso = () => {
+    $("progreso").textContent = abiertos < RAZONES.length
+      ? `${abiertos} de ${RAZONES.length} papelitos`
+      : "¡Los abriste todos! 💗";
+  };
+  actualizarProgreso();
+
+  $("frascoWrap").addEventListener("click", () => {
+    if (abiertos >= RAZONES.length) return;
+    const wrap = $("frascoWrap");
+    wrap.classList.remove("sacudir"); void wrap.offsetWidth; wrap.classList.add("sacudir");
+    papeles[RAZONES.length - 1 - abiertos].classList.add("fuera");
+    const razon = RAZONES[abiertos];
+    abiertos++;
+    setTimeout(() => abrirPapelito(razon), 380);
+  });
+
+  function abrirPapelito(r) {
+    const cont = $("papelito");
+    if (r.chiste) {
+      cont.innerHTML = `
+        <div class="polaroid"><img src="fotos/8.jpg" alt=""></div>
+        <p class="razon">Porque tenemos los mejores chistes…</p>
+        <div class="chiste-linea">LA FOTOOOOO ✌🏻</div>
+        <div class="chiste-linea">EL VIDEOOOOOO ✌🏻😜</div>
+        <div class="chiste-linea">LA CHACANERÍAAAAAAAAAA 🕺</div>
+        <p style="margin-top:16px"><button class="boton" id="cerrar">Jajaja 🤭</button></p>`;
+      cont.querySelectorAll(".chiste-linea").forEach((el, i) =>
+        setTimeout(() => el.classList.add("ver"), 600 + i * 900));
+    } else {
+      cont.innerHTML = `
+        <div class="polaroid"><img src="${r.foto}" alt=""></div>
+        <p class="razon">${r.texto}</p>
+        <button class="boton" id="cerrar">${abiertos < RAZONES.length ? "Otro papelito 💌" : "Ya los saqué todos 💗"}</button>`;
+    }
+    // reiniciar animación
+    cont.style.animation = "none"; void cont.offsetWidth; cont.style.animation = "";
+    $("modal").classList.add("abierto");
+    $("cerrar").onclick = cerrarPapelito;
+    mini();
+  }
+  function cerrarPapelito() {
+    $("modal").classList.remove("abierto");
+    actualizarProgreso();
+    if (abiertos >= RAZONES.length) $("btnUltima").style.display = "inline-block";
+  }
+  $("modal").addEventListener("click", (e) => { if (e.target.id === "modal") cerrarPapelito(); });
+
+  // Pregunta
+  const frasesNo = [
+    "¿Segura? 🤨", "Piénsalo bien 🥺", "Ese botón está roto 😜",
+    "No lo vas a alcanzar 🏃‍♀️", "Mi reina, por favor 😭", "Última oportunidad…",
+  ];
+  let intentosNo = 0;
+  const btnNo = $("btnNo"), btnSi = $("btnSi");
+  function escaparNo(e) {
+    if (intentosNo >= frasesNo.length) return; // ya se rindió
+    if (e) e.preventDefault();
+    intentosNo++;
+    $("msgNo").textContent = frasesNo[intentosNo - 1];
+    btnSi.style.transform = `scale(${1 + intentosNo * 0.15})`;
+    if (intentosNo >= frasesNo.length) {
+      btnNo.classList.remove("escapando");
+      btnNo.style.left = btnNo.style.top = "";
+      btnNo.textContent = "Bueno, sí 💗";
+      btnNo.className = "boton";
+      $("msgNo").textContent = "Eso pensé 😌";
+      return;
+    }
+    const w = btnNo.offsetWidth, h = btnNo.offsetHeight;
+    btnNo.classList.add("escapando");
+    btnNo.style.left = 16 + Math.random() * (window.innerWidth - w - 32) + "px";
+    btnNo.style.top = 70 + Math.random() * (window.innerHeight - h - 140) + "px";
+  }
+  btnNo.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") escaparNo(e); });
+  btnNo.addEventListener("pointerdown", escaparNo);
+  btnNo.addEventListener("click", (e) => {
+    if (intentosNo >= frasesNo.length) dijoQueSi(); else e.preventDefault();
+  });
+  btnSi.addEventListener("click", dijoQueSi);
+
+  function dijoQueSi() {
+    btnNo.classList.remove("escapando");
+    mostrar("final");
+    lluviaConfeti();
+  }
+
+  // Galería final
+  const galeria = $("galeria");
+  for (let i = 1; i <= 10; i++) {
+    const d = document.createElement("div");
+    d.className = "polaroid";
+    d.innerHTML = `<img src="fotos/${i}.jpg" alt="" loading="lazy">`;
+    galeria.appendChild(d);
+  }
+
+  $("btnAbrir").onclick = () => mostrar("frasco");
+  $("btnUltima").onclick = () => mostrar("pregunta");
+  $("btnOtra").onclick = () => location.reload();
+
+  // Confeti
+  const canvas = $("confeti"), ctx = canvas.getContext("2d");
+  let piezas = [], animando = false;
+  function ajustar() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
+    canvas.style.width = innerWidth + "px"; canvas.style.height = innerHeight + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  addEventListener("resize", ajustar); ajustar();
+  const PASTEL = ["#f8c8d8", "#e8789f", "#ffd6a5", "#cdb4db", "#bde0fe", "#ffafcc", "#fff1a8"];
+  function crear(n, x, y, fuerza) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, v = Math.random() * fuerza;
+      piezas.push({
+        x: x ?? Math.random() * innerWidth, y: y ?? -20 - Math.random() * innerHeight * 0.5,
+        vx: x != null ? Math.cos(a) * v : Math.random() * 2 - 1,
+        vy: y != null ? Math.sin(a) * v - 4 : 2 + Math.random() * 3,
+        r: 6 + Math.random() * 8, rot: Math.random() * 6, vr: Math.random() * .2 - .1,
+        c: PASTEL[Math.floor(Math.random() * PASTEL.length)],
+        corazon: Math.random() < 0.45, vida: 260 + Math.random() * 120,
+      });
+    }
+    if (!animando) { animando = true; requestAnimationFrame(paso); }
+  }
+  function dibujarCorazon(r) {
+    ctx.beginPath();
+    ctx.moveTo(0, r * 0.3);
+    ctx.bezierCurveTo(0, 0, -r, 0, -r, r * 0.3);
+    ctx.bezierCurveTo(-r, r * 0.7, 0, r, 0, r * 1.2);
+    ctx.bezierCurveTo(0, r, r, r * 0.7, r, r * 0.3);
+    ctx.bezierCurveTo(r, 0, 0, 0, 0, r * 0.3);
+    ctx.fill();
+  }
+  function paso() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    piezas = piezas.filter((p) => p.vida > 0 && p.y < innerHeight + 40);
+    for (const p of piezas) {
+      p.vy += 0.08; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.vida--;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if (p.corazon) dibujarCorazon(p.r * 0.8); else ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2);
+      ctx.restore();
+    }
+    if (piezas.length) requestAnimationFrame(paso);
+    else { animando = false; ctx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+  function mini() { crear(28, innerWidth / 2, innerHeight / 2, 7); }
+  function lluviaConfeti() {
+    crear(160);
+    setTimeout(() => crear(120), 700);
+    setTimeout(() => crear(100), 1500);
+  }
+</script>
+</body>
+</html>
